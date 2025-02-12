@@ -1,0 +1,15 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+
+    vector<int> v = {1,4,3,4,5,4,5};
+
+    int result = count(v.begin(), v.end(), 5);
+
+    cout << result << '\n';
+    return 0;
+}

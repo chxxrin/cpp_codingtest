@@ -1,0 +1,109 @@
+{
+    "version": "2.0.0",  // tasks.json 파일 형식 버전
+    "runner": "terminal",  // 작업을 실행할 때 사용할 실행기 (터미널)
+    "type": "shell",  // 터미널의 유형 (shell)
+    "echoCommand": true,  // 실행 명령을 터미널에 표시할지 여부
+    "presentation": {
+        "reveal": "always"  // 실행 중 출력 창을 항상 표시할지 여부
+    },
+
+    "tasks": [  // 실행할 작업 목록 시작
+        {
+            "label": "save and compile for C/C++",  // 작업의 이름
+            "command": "${input:chooseCompiler}",  // 컴파일러 종류
+            "args": [
+                "${file}",  // 현재 파일의 경로
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"  // 실행파일 이름
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"  // 새로운 출력 패널에 결과 표시
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true  // 기본 빌드 작업으로 설정
+            },
+            "problemMatcher": {
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}" 
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$", 
+                    "file": 1,  
+                    "line": 2, 
+                    "column": 3,  
+                    "severity": 4,  
+                    "message": 5 
+                }
+            },
+            "detail": "Compile for C/C++ Made by tkxx_ls" 
+        },
+
+        {
+            "label": "build for C/C++",
+            "command": "${input:chooseCompiler}",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.exe"
+            ],
+            "problemMatcher": {
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}"
+                ],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "focus": true,
+                "echo": true
+            },
+            "detail": "Build for debugger Made by tkxx_ls"
+        },
+
+        {
+            "label": "execute",
+            "command": "cmd",
+            "group": "test",
+            "args": [
+                "/C",
+                "${fileDirname}/${fileBasenameNoExtension}.exe"
+            ],
+            "detail": "Execute task for exe file Made by tkxx_ls",
+            "dependsOn": ["save and compile for C/C++"]
+        }
+        
+    ],
+
+    "inputs": [ 
+        {
+            "id": "chooseCompiler",  
+            "type": "command",
+            "command": "extension.commandvariable.file.fileAsKey", 
+            "args": {
+                ".cpp": "g++",  
+                ".c": "gcc"
+            }
+        }
+    ]
+}
