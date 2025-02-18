@@ -54,7 +54,13 @@
     "queue": "cpp",
     "__split_buffer": "cpp",
     "array": "cpp",
-    "deque": "cpp"
+    "deque": "cpp",
+    "__hash_table": "cpp",
+    "__node_handle": "cpp",
+    "__tree": "cpp",
+    "map": "cpp",
+    "optional": "cpp",
+    "set": "cpp"
   },
 
   "C_Cpp_Runner.cCompilerPath": "clang",
